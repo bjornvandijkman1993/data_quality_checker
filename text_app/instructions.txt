@@ -1,0 +1,8 @@
+﻿# Outlier Detection
+
+This application enables any user to explore their data, visualize it and run a sophisticated outlier detection model.
+
+👈 **Please _upload a csv or excel file_ in the sidebar to start and give the project a _name_ to start.**
+
+---
+
