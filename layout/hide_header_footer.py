@@ -1,6 +1,8 @@
 import streamlit as st
 
 # MainMenu {visibility: hidden;}
+
+
 def hide_header_footer():
     hide_streamlit_style = """
                 <style>

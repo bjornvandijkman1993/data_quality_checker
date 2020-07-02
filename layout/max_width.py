@@ -1,5 +1,6 @@
 import streamlit as st
 
+
 def _max_width_():
     max_width_str = f"max-width: 1000px;"
     st.markdown(
@@ -8,7 +9,7 @@ def _max_width_():
     .reportview-container .main .block-container{{
         {max_width_str}
     }}
-    </style>    
+    </style>
     """,
         unsafe_allow_html=True,
     )

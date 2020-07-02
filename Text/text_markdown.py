@@ -1,5 +1,5 @@
 import streamlit as st
-from layout import utils
+from Layout import utils
 
 def intro_page():
     # Uploader widget
@@ -9,7 +9,7 @@ def intro_page():
     )
 
     BITBUCKET_LINK = (
-        "https://github.com/T-I-Team/outlier_detection"
+        "https://bitbucket.org/bvandijkman/data_quality_checker/src/master/"
     )
 
     ### introductory text

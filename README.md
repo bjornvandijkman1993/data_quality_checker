@@ -14,7 +14,7 @@
 
 ## Installation
 
-1. Navigate to a folder within your local system in the terminal. 
+1. Navigate to a folder within your local system in the terminal.
 2. Clone the repository and install the dependencies.
 3. Run streamlit
 
@@ -69,14 +69,9 @@ st.write(get_head_df(df))
     - K-neirest neighbors ([KNN](https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.knn))
     - Average KNN ([KNN](https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.knn))
     - All of the methods above. The results are combined into a single score.
-        
+
     Furthermore, per row an indication will be given which column value can considered to be an outlier
-    in a single dimension. The two methods that can be chosen from are the **Standard Deviation Method** 
-    and the **Inter Quartile Range (IQR)** method. 
+    in a single dimension. The two methods that can be chosen from are the **Standard Deviation Method**
+    and the **Inter Quartile Range (IQR)** method.
 6. Plot the results to explore them.
-7. Export the dataframe, which is sorted on the outlier score. 
-
-
-
-
-
+7. Export the dataframe, which is sorted on the outlier score.
