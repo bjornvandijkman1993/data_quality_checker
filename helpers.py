@@ -4,7 +4,7 @@ import io
 from pandas.io.parsers import ParserError
 
 
-def load_file(filename):
+def load_file(filename, delim):
     """
     :param filename: a filename selected by the user using the uploader widget, see main.py
     :return: df: a dataframe with the loaded data
@@ -20,34 +20,31 @@ def load_file(filename):
     @st.cache(
         hash_funcs={io.BytesIO: hash_io, io.StringIO: hash_io},
         allow_output_mutation=True,
+        show_spinner=False,
+        suppress_st_warning=True
     )
     # Function that tries to read file as a csv
     # if selected file is not a csv file then it will load as an excel file
-    def try_read_df(filename):
+    def try_read_df(filename, delim):
         try:
-            comma_sep = pd.read_csv(filename, sep=",")
-            number_columns = comma_sep.shape[1]
-            if number_columns != 1:
-                return comma_sep
-            else:
-                other_sep = pd.read_csv(filename, sep=";")
-                st.write(other_sep)
-                return other_sep
-
-        except (UnicodeDecodeError, ParserError):
+            return pd.read_csv(filename, sep = delim)
+        except (TypeError, ParserError):
+            st.error("**Please change your delimiter in the sidebar.**")
+        except:
             return pd.read_excel(filename)
 
     # if a filename is found, then read it using the function above
     if filename:
         # df = try_read_df(filename)
-        df = try_read_df(filename)
+        df = try_read_df(filename, delim)
         if len(df) != 0:
             st.sidebar.success("**The file has been loaded.**")
-
-    return df
-
+            return df
+        else:
+            st.error("**Please change your delimiter in the sidebar.**")
 
 # Function that creates a list of all column names, just the numerical names and categorical names
+@st.cache
 def get_float_names(df):
     df_float = df.loc[:, df.dtypes == "float64"]
     float_names = df_float.columns.tolist()
@@ -65,25 +62,33 @@ def get_predictor_names(df):
     return predictor_names
 
 
-@st.cache
+@st.cache(show_spinner=False)
 def get_int_names(df):
     df_int = df.loc[:, df.dtypes == "int64"]
     int_names = df_int.columns.tolist()
     return int_names
 
 
-@st.cache
 def get_numerical_names(df):
     # Only the numerical columns
     df_int = df.loc[:, df.dtypes == "int64"]
-    df_float = df.loc[:, df.dtypes == "float64"]
+
+    # the integers need to have more than 10 distinct values to be considered a numerical value
+    unique_values = df_int.apply(pd.Series.nunique).to_frame("Unique Values").iloc[:, 0]
+    df_int = df_int.loc[:, unique_values > 10]
     int_names = df_int.columns.tolist()
+
+    df_float = df.loc[:, df.dtypes == "float64"]
     float_names = df_float.columns.tolist()
     num_names = int_names + float_names
+    # remove identifiers
+    id_names = get_id_names(df)
+    num_names = [x for x in num_names if x not in id_names]
+    num_names
     return num_names
 
 
-@st.cache
+@st.cache(show_spinner=False)
 def get_categorical_names(df):
     # Check the number of unique values per column
     unique_values = df.apply(pd.Series.nunique).to_frame("Unique Values").iloc[:, 0]
@@ -101,7 +106,7 @@ def get_categorical_names(df):
 
 
 #
-@st.cache
+@st.cache(show_spinner=False)
 def get_text_names(df):
     unique_values = df.apply(pd.Series.nunique).to_frame("Unique Values").iloc[:, 0]
     df_obj = df.loc[:, df.dtypes == "object"]
@@ -111,23 +116,21 @@ def get_text_names(df):
     return df_text.columns.tolist()
 
 
-@st.cache
-def get_uniqueID_names(df):
+@st.cache(show_spinner=False)
+def get_id_names(df):
     """
     Return column names that use have unique values
     """
     nr_rows = df.shape[0]
     unique_values = df.apply(pd.Series.nunique).to_frame("Unique Values").iloc[:, 0]
-    uniqueID_col = df.loc[:, unique_values == nr_rows]
-    uniqueID_names = uniqueID_col.columns.tolist()
-    # if there is no colomn with unique values, create one called 'identifier'
-    if len(uniqueID_names) == 0:
-        df["identifier"] = range(1, len(df) + 1)
-        uniqueID_names.append("identifier")
-    return uniqueID_names
+    id_frame = df.loc[:, unique_values == nr_rows]
+    id_names = id_frame.columns.tolist()
+    float_names = get_float_names(df)
+    id_names = [x for x in id_names if x not in float_names]
+    return id_names
 
 
-@st.cache
+@st.cache(show_spinner=False)
 def get_all_names(df):
     """
     :return: all the column names
@@ -136,7 +139,7 @@ def get_all_names(df):
     return all_names
 
 
-@st.cache
+@st.cache(show_spinner=False)
 def highlight_outliers(df):
     dfcopy = pd.DataFrame("", index=df.index, columns=df.columns)
     yellow = "background-color: #FEF4D5"
@@ -159,6 +162,7 @@ def highlight_outliers(df):
     return dfcopy
 
 
+@st.cache(show_spinner=False)
 def highlight_missing(c):
     """
     Highlight the cells with missing value more than 10%
@@ -167,7 +171,7 @@ def highlight_missing(c):
     return ["background-color: #FFD5D5" if v else "" for v in missing]
 
 
-@st.cache
+@st.cache(show_spinner=False)
 def is_data_missing(df, percent_missing):
     """
     :param df: original dataframe
@@ -230,7 +234,7 @@ def is_data_missing(df, percent_missing):
     return still_missing, message, type
 
 
-@st.cache
+@st.cache(show_spinner=False)
 def get_head_df(df, choice_size):
     """
     :param choice_size: A parameter that the user determines
@@ -391,7 +395,6 @@ def betweensection_space():
     """
     A larger space and a horizontal line for between sections
     """
-
     st.write(" ")
     st.write(" ")
     st.write(" ")

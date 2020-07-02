@@ -47,3 +47,26 @@ def insert_github_logo():
         "</a> </div>",
         unsafe_allow_html=True,
     )
+
+
+def _max_width_():
+    max_width_str = f"max-width: 1000px;"
+    st.markdown(
+        f"""
+    <style>
+    .reportview-container .main .block-container{{
+        {max_width_str}
+    }}
+    </style>
+    """,
+        unsafe_allow_html=True,
+    )
+
+
+def hide_header_footer():
+    hide_streamlit_style = """
+                <style>
+                footer {visibility: hidden;}
+                </style>
+                """
+    st.markdown(hide_streamlit_style, unsafe_allow_html=True)

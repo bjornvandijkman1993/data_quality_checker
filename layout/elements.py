@@ -21,5 +21,3 @@ def outliers_vs_non_outliers(outliers, non_outliers):
         "<br>",
         unsafe_allow_html=True,
     )
-
-    # Calls to streamlit render immediately, no need to return anything

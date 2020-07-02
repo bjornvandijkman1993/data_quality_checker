@@ -1,8 +1,6 @@
 import streamlit as st
 
 # import functions from external python scripts
-from Layout import hide_header_footer
-from Layout import max_width
 from Layout import utils
 from Text import text_markdown
 
@@ -18,10 +16,10 @@ from Sections import ml
 def main():
 
     # increases the width of the text and tables/figures
-    max_width._max_width_()
+    utils._max_width_()
 
     # hide the footer and optionally the streamlit menu in the topright corner which is unrelated to our app
-    hide_header_footer.hide_header_footer()
+    utils.hide_header_footer()
 
     # show the intro page
     text_markdown.intro_page()
@@ -29,10 +27,11 @@ def main():
     # load the data, currently allows for csv and excel imports
     st.sidebar.title(":floppy_disk: Upload Your File")
     filename = st.sidebar.file_uploader("Choose a file", type=["xlsx", "csv"])
+    delim = st.sidebar.selectbox("In case of a CSV file, pick the delimiter.", [",", ";", "|"])
 
     if filename:
 
-        df = helpers.load_file(filename)
+        df = helpers.load_file(filename,delim)
 
         # space between sections
         helpers.betweensection_space()
@@ -49,7 +48,8 @@ def main():
 
         # Ensures navigation between pages
         if choice_page == "EDA":
-            eda.exploratory_data_analysis(df)
+            eda.first_inspection(df)
+            eda.visuals(df)
         elif choice_page == "Preprocessing Suggestions":
             preprocessing.preprocess(df)
         elif choice_page == "ML":
