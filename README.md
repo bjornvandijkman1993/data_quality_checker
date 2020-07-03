@@ -19,7 +19,7 @@
 3. Run streamlit
 
 ```shell
-$ git clone git@bitbucket.org:aimdeloittenl/data_quality_checker.git
+$ git clone [https link]
 $ pip install -r requirements.txt
 
 $ streamlit run main.py
