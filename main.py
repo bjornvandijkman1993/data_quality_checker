@@ -1,4 +1,6 @@
 import streamlit as st
+import json
+import hiplot as hip
 
 # import functions from external python scripts
 from Layout import utils
@@ -12,6 +14,8 @@ from Sections import eda
 from Sections import preprocessing
 from Sections import ml
 
+st.set_option('deprecation.showfileUploaderEncoding', False)
+
 
 def main():
 
@@ -21,17 +25,21 @@ def main():
     # hide the footer and optionally the streamlit menu in the topright corner which is unrelated to our app
     utils.hide_header_footer()
 
+
     # show the intro page
     text_markdown.intro_page()
 
     # load the data, currently allows for csv and excel imports
     st.sidebar.title(":floppy_disk: Upload Your File")
     filename = st.sidebar.file_uploader("Choose a file", type=["xlsx", "csv"])
-    delim = st.sidebar.selectbox("In case of a CSV file, pick the delimiter.", [",", ";", "|"])
+
+    delim = st.sidebar.selectbox(
+        "In case of a CSV file, pick the delimiter.", [",", ";", "|"]
+    )
 
     if filename:
 
-        df = helpers.load_file(filename,delim)
+        df = helpers.load_file(filename, delim)
 
         # space between sections
         helpers.betweensection_space()

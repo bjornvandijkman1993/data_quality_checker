@@ -27,7 +27,11 @@ def classification(df):
         y = y.astype("int")
 
         test_size = st.sidebar.slider(
-            "Determines the fraction of your test set", 0.0, 1.0, 0.2, 0.1
+            "Determines the fraction of your test set",
+            min_value=0.0,
+            max_value=1.0,
+            value=0.2,
+            step=0.1
         )
 
         x_train, x_test, y_train, y_test = train_test_split(

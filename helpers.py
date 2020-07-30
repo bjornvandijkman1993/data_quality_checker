@@ -21,31 +21,43 @@ def load_file(filename, delim):
         hash_funcs={io.BytesIO: hash_io, io.StringIO: hash_io},
         allow_output_mutation=True,
         show_spinner=False,
-        suppress_st_warning=True
+        suppress_st_warning=True,
     )
     # Function that tries to read file as a csv
     # if selected file is not a csv file then it will load as an excel file
     def try_read_df(filename, delim):
+        """
+        :param filename: the file that is selected by the user
+        :param delim: the delimiter chosen by the user
+        :return: a pandas dataframe
+        """
+
         try:
-            return pd.read_csv(filename, sep = delim)
+            return pd.read_csv(filename, sep=delim)
         except (TypeError, ParserError):
             st.error("**Please change your delimiter in the sidebar.**")
-        except:
+        except Exception:
             return pd.read_excel(filename)
 
     # if a filename is found, then read it using the function above
-    if filename:
+    if filename is not None:
         # df = try_read_df(filename)
         df = try_read_df(filename, delim)
+        st.write(df)
         if len(df) != 0:
             st.sidebar.success("**The file has been loaded.**")
             return df
         else:
             st.error("**Please change your delimiter in the sidebar.**")
 
+
 # Function that creates a list of all column names, just the numerical names and categorical names
 @st.cache
 def get_float_names(df):
+    """
+    Look for columns of type float
+    Return as list
+    """
     df_float = df.loc[:, df.dtypes == "float64"]
     float_names = df_float.columns.tolist()
     return float_names
@@ -53,6 +65,10 @@ def get_float_names(df):
 
 @st.cache
 def get_predictor_names(df):
+    """
+    Look for columns that contain two unique values
+    Return as list
+    """
     # Check the number of unique values per column
     unique_values = df.apply(pd.Series.nunique).to_frame("Unique Values").iloc[:, 0]
     df_predictors = df.loc[:, unique_values == 2]
@@ -64,12 +80,21 @@ def get_predictor_names(df):
 
 @st.cache(show_spinner=False)
 def get_int_names(df):
+    """
+    Look for columns of type int
+    Return as list
+    """
     df_int = df.loc[:, df.dtypes == "int64"]
     int_names = df_int.columns.tolist()
     return int_names
 
 
 def get_numerical_names(df):
+    """
+    Look for columns of type int, with more than 10 unique values
+    Also look for float columns
+    Remove names that are a unique identifier
+    """
     # Only the numerical columns
     df_int = df.loc[:, df.dtypes == "int64"]
 
@@ -90,6 +115,9 @@ def get_numerical_names(df):
 
 @st.cache(show_spinner=False)
 def get_categorical_names(df):
+    """
+    Return column names of columns with less than 10 unique values
+    """
     # Check the number of unique values per column
     unique_values = df.apply(pd.Series.nunique).to_frame("Unique Values").iloc[:, 0]
 
@@ -108,6 +136,10 @@ def get_categorical_names(df):
 #
 @st.cache(show_spinner=False)
 def get_text_names(df):
+    """
+    If the ratio of unique values in object columns is higher than 0.1,
+    return as text columns --> in a list)
+    """
     unique_values = df.apply(pd.Series.nunique).to_frame("Unique Values").iloc[:, 0]
     df_obj = df.loc[:, df.dtypes == "object"]
     nr_rows = df.shape[0]
@@ -120,6 +152,7 @@ def get_text_names(df):
 def get_id_names(df):
     """
     Return column names that use have unique values
+    Remove floats
     """
     nr_rows = df.shape[0]
     unique_values = df.apply(pd.Series.nunique).to_frame("Unique Values").iloc[:, 0]
@@ -137,29 +170,6 @@ def get_all_names(df):
     """
     all_names = df.columns.tolist()
     return all_names
-
-
-@st.cache(show_spinner=False)
-def highlight_outliers(df):
-    dfcopy = pd.DataFrame("", index=df.index, columns=df.columns)
-    yellow = "background-color: #FEF4D5"
-    blue = "background-color: #E5F0F9"
-    for row in df.index:
-        # goes wrong if colomns contain , in col name
-        for value in df.loc[row, "outliers_above"].split(", "):
-            if value == "":
-                pass
-            else:
-                dfcopy.loc[row, value] = yellow
-                dfcopy.loc[row, "outliers_above"] = yellow
-        for value in df.loc[row, "outliers_below"].split(", "):
-            if value == "":
-                pass
-            else:
-                dfcopy.loc[row, value] = blue
-
-                dfcopy.loc[row, "outliers_below"] = blue
-    return dfcopy
 
 
 @st.cache(show_spinner=False)
@@ -293,7 +303,6 @@ def get_missings(df):
 @st.cache(show_spinner=False)
 def get_missing_values(df):
     """
-
     :param df:
     :return:
 

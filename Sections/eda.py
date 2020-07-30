@@ -1,3 +1,4 @@
+from Layout import html_injections
 import helpers
 import streamlit as st
 from pandas import concat
@@ -5,10 +6,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 sns.set(style="darkgrid")
-sns.set(rc={'figure.figsize':(11.7, 9.27)})
-
-
-from Layout import html_injections
+sns.set(rc={"figure.figsize": (11.7, 9.27)})
 
 
 def first_inspection(df):
@@ -37,7 +35,6 @@ def first_inspection(df):
     # of the original df, and two tables with summary statistics
     data_characteristics = helpers.describe_table(df)
 
-
     st.title(":mag_right: First Inspection")
 
     # Show dataframe and a title in streamlit
@@ -57,7 +54,7 @@ def first_inspection(df):
         "Shows the number of **unique values**, the number of **missing values** and the **variable "
         "type** in Python for each variable in the dataset."
     )
-    st.write(summary_table)
+    st.dataframe(summary_table)
 
     helpers.innersection_space()
 
@@ -69,11 +66,11 @@ def first_inspection(df):
 
     helpers.betweensection_space()
 
+
 def visuals(df):
     # create lists of column names
     cat_names = helpers.get_categorical_names(df)
     num_names = helpers.get_numerical_names(df)
-
 
     # Create list of options for visualizations
     options = []
@@ -92,7 +89,6 @@ def visuals(df):
     choice_options = st.sidebar.multiselect(
         "Which visualizations do you want to display", default=options, options=options
     )
-
     st.sidebar.subheader("Column")
 
     num_column = st.sidebar.selectbox(
@@ -108,7 +104,6 @@ def visuals(df):
 
     fig = plt.figure()
     fig.subplots_adjust(hspace=0.3, wspace=0.3)
-
 
     if "Histogram" in choice_options:
         fig.add_subplot(2, 2, 1)
@@ -140,9 +135,9 @@ def visuals(df):
         )
         # Position for scatterplot is always last
         # so it just depends on the length of the chosen options
-        for i in range(1,4):
+        for i in range(1, 4):
             if len(choice_options) == i + 1:
-                fig.add_subplot(2, 2, i+1)
+                fig.add_subplot(2, 2, i + 1)
 
         if len(cat_names) > 0:
             sns.scatterplot(x=num_column, y=num_column2, hue=cat_column, data=df)
