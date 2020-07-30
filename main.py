@@ -65,7 +65,7 @@ def main():
 
         st.sidebar.title(":car: Navigation")
 
-        options = ["EDA", "Preprocessing Suggestions", "ML"]
+        options = ["EDA", "Preprocessing Suggestions"]
         choice_page = st.sidebar.radio(
             "Which page do you want to navigate to?", options
         )

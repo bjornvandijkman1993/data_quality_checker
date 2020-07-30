@@ -1,13 +1,13 @@
-# Begin by importing all necessary libraries
-import streamlit as st
-import pandas as pd
-import numpy as np
-import helpers
-from sklearn.model_selection import train_test_split
-from sklearn.svm import SVC
-from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
+# # Begin by importing all necessary libraries
+# import streamlit as st
+# import pandas as pd
+# import numpy as np
+# import helpers
+# from sklearn.model_selection import train_test_split
+# from sklearn.svm import SVC
+# from sklearn.metrics import classification_report, confusion_matrix
+# from sklearn.preprocessing import StandardScaler
+# from sklearn.linear_model import LogisticRegression
 
 
 def classification(df):
