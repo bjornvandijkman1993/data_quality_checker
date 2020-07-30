@@ -9,9 +9,8 @@ import helpers
 # The different sections
 from Sections import eda
 from Sections import preprocessing
-from Sections import ml
 
-st.set_option('deprecation.showfileUploaderEncoding', False)
+# st.set_option('deprecation.showfileUploaderEncoding', False)
 
 
 def main():
