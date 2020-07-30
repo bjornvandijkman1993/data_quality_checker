@@ -1,9 +1,6 @@
 import streamlit as st
-import json
-import hiplot as hip
 
 # import functions from external python scripts
-from Layout import utils
 from Text import text_markdown
 
 # helper functions
@@ -19,11 +16,11 @@ st.set_option('deprecation.showfileUploaderEncoding', False)
 
 def main():
 
-    # increases the width of the text and tables/figures
-    utils._max_width_()
-
-    # hide the footer and optionally the streamlit menu in the topright corner which is unrelated to our app
-    utils.hide_header_footer()
+    # # increases the width of the text and tables/figures
+    # utils._max_width_()
+    #
+    # # hide the footer and optionally the streamlit menu in the topright corner which is unrelated to our app
+    # utils.hide_header_footer()
 
 
     # show the intro page
