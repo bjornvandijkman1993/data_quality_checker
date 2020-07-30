@@ -15,12 +15,33 @@ st.set_option('deprecation.showfileUploaderEncoding', False)
 
 
 def main():
+    def _max_width_():
+        max_width_str = f"max-width: 1000px;"
+        st.markdown(
+            f"""
+        <style>
+        .reportview-container .main .block-container{{
+            {max_width_str}
+        }}
+        </style>
+        """,
+            unsafe_allow_html=True,
+        )
 
-    # # increases the width of the text and tables/figures
-    # utils._max_width_()
-    #
-    # # hide the footer and optionally the streamlit menu in the topright corner which is unrelated to our app
-    # utils.hide_header_footer()
+    def hide_header_footer():
+        hide_streamlit_style = """
+                    <style>
+                    footer {visibility: hidden;}
+                    </style>
+                    """
+        st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
+
+    # increases the width of the text and tables/figures
+    _max_width_()
+
+    # hide the footer and optionally the streamlit menu in the topright corner which is unrelated to our app
+    hide_header_footer()
 
 
     # show the intro page

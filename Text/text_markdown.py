@@ -1,5 +1,36 @@
 import streamlit as st
-from Layout import utils
+
+_SUSCEPTIBLE_COLOR = "rgba(230,230,230,.4)"
+_RECOVERED_COLOR = "rgba(180,200,180,.4)"
+
+COLOR_MAP = {
+    "default": "#262730",
+    "pink": "#E22A5B",
+    "purple": "#985FFF",
+    "susceptible": _SUSCEPTIBLE_COLOR,
+    "recovered": _RECOVERED_COLOR,
+}
+
+def generate_html(
+    text,
+    color=COLOR_MAP["default"],
+    bold=False,
+    font_family=None,
+    font_size=None,
+    line_height=None,
+    tag="div",
+):
+    if bold:
+        text = f"<strong>{text}</strong>"
+    css_style = f"color:{color};"
+    if font_family:
+        css_style += f"font-family:{font_family};"
+    if font_size:
+        css_style += f"font-size:{font_size};"
+    if line_height:
+        css_style += f"line-height:{line_height};"
+
+    return f"<{tag} style={css_style}>{text}</{tag}>"
 
 
 def intro_page():
@@ -14,22 +45,22 @@ def intro_page():
     # introductory text
 
     st.markdown(
-        body=utils.generate_html(text=f"Data Quality Checker", bold=True, tag="h1"),
+        body=generate_html(text=f"Data Quality Checker", bold=True, tag="h1"),
         unsafe_allow_html=True,
     )
     st.markdown(
-        body=utils.generate_html(
+        body=generate_html(
             tag="h2", text="A tool that checks the quality of your dataset.<br>",
         ),
         unsafe_allow_html=True,
     )
 
     st.markdown(
-        body=utils.generate_html(
+        body=generate_html(
             tag="h4",
-            text=f"<u><a href=\"{BITBUCKET_LINK}\" target=\"_blank\" style=color:{utils.COLOR_MAP['pink']};>"
+            text=f"<u><a href=\"{BITBUCKET_LINK}\" target=\"_blank\" style=color:{COLOR_MAP['pink']};>"
             "Source Code</a></u> <span> &nbsp;&nbsp;&nbsp;&nbsp</span>"
-            f"<u><a href=\"{TRELLO_LINK}\" target=\"_blank\" style=color:{utils.COLOR_MAP['pink']};>"
+            f"<u><a href=\"{TRELLO_LINK}\" target=\"_blank\" style=color:{COLOR_MAP['pink']};>"
             "Trello Board</a></u> <span> &nbsp;&nbsp;&nbsp;&nbsp</span>"
             "<hr>",
         ),

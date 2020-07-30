@@ -45,7 +45,7 @@ def first_inspection(df):
     helpers.innersection_space()
 
     # Show Number
-    html_injections.all_cards(df)
+    helpers.all_cards(df)
 
     helpers.innersection_space()
 
