@@ -120,7 +120,6 @@ Send2Trash==1.5.0
 shap==0.32.1
 simplejson==3.17.2
 six==1.15.0
-sklearn==0.0
 soupsieve==2.0.1
 spacy==2.3.0
 srsly==1.0.2
