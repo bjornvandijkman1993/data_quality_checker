@@ -43,7 +43,6 @@ def load_file(filename, delim):
     if filename is not None:
         # df = try_read_df(filename)
         df = try_read_df(filename, delim)
-        st.write(df)
         if len(df) != 0:
             st.sidebar.success("**The file has been loaded.**")
             return df

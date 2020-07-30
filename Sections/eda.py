@@ -28,7 +28,7 @@ def first_inspection(df):
     summary_table = concat(
         [unique_values, missing_values, percent_missing, zero_values, data_types],
         axis=1,
-    ).style.apply(helpers.highlight_missing, subset=["Percent Missing"])
+    )
 
     # Gets the names of missing values, a dataframe with the missings, the number of rows/columns
     # of the original df, and two tables with summary statistics
@@ -53,7 +53,7 @@ def first_inspection(df):
         "Shows the number of **unique values**, the number of **missing values** and the **variable "
         "type** in Python for each variable in the dataset."
     )
-    st.dataframe(summary_table)
+    st.write(summary_table)
 
     helpers.innersection_space()
 

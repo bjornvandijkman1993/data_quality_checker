@@ -10,10 +10,10 @@ import helpers
 from Sections import eda
 from Sections import preprocessing
 
-# st.set_option('deprecation.showfileUploaderEncoding', False)
-
 
 def main():
+    st.set_option('deprecation.showfileUploaderEncoding', False)
+
     def _max_width_():
         max_width_str = f"max-width: 1000px;"
         st.markdown(
