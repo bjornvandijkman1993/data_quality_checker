@@ -78,8 +78,6 @@ def main():
             eda.visuals(df)
         elif choice_page == "Preprocessing Suggestions":
             preprocessing.preprocess(df)
-        elif choice_page == "ML":
-            ml.classification(df)
 
     # bottom line and github logo
     st.markdown("---")
