@@ -84,9 +84,6 @@ def main():
     # bottom line and github logo
     st.markdown("---")
 
-    # insert github logo
-    utils.insert_github_logo()
-
 
 if __name__ == "__main__":
     main()
