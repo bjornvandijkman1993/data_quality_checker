@@ -78,7 +78,6 @@ numexpr==2.7.1
 numpy==1.19.0
 packaging==20.4
 pandas==1.0.5
-pandas-profiling==2.8.0
 pandocfilters==1.4.2
 parso==0.7.0
 pathtools==0.1.2
@@ -101,7 +100,6 @@ pydeck==0.4.0b2
 pyecharts==1.8.1
 Pygments==2.6.1
 pyLDAvis==2.1.2
-pyod==0.8.0
 pyparsing==2.4.7
 pyrsistent==0.16.0
 pytest==5.4.3
@@ -117,7 +115,6 @@ rsa==3.4.2
 s3transfer==0.3.3
 seaborn==0.10.1
 Send2Trash==1.5.0
-shap==0.32.1
 simplejson==3.17.2
 six==1.15.0
 soupsieve==2.0.1
