@@ -1,7 +1,7 @@
 variables:
   regionName: 'eu-west-3'
-  bucketName: 'mlops-capstone'
-  applicationName: 'capstone'
+  bucketName: 'dataqualitychecker'
+  applicationName: 'dataquality'
 
 trigger:
 - master
