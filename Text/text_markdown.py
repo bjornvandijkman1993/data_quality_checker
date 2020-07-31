@@ -60,8 +60,6 @@ def intro_page():
             tag="h4",
             text=f"<u><a href=\"{BITBUCKET_LINK}\" target=\"_blank\" style=color:{COLOR_MAP['pink']};>"
             "Source Code</a></u> <span> &nbsp;&nbsp;&nbsp;&nbsp</span>"
-            f"<u><a href=\"{TRELLO_LINK}\" target=\"_blank\" style=color:{COLOR_MAP['pink']};>"
-            "Trello Board</a></u> <span> &nbsp;&nbsp;&nbsp;&nbsp</span>"
             "<hr>",
         ),
         unsafe_allow_html=True,
