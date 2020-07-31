@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 # import functions from external python scripts
 from Text import text_markdown
@@ -58,25 +59,28 @@ def main():
 
         df = helpers.load_file(filename, delim)
 
-        # space between sections
-        helpers.betweensection_space()
-        helpers.sidebar_space()
+    else:
+        df = pd.read_excel("Data/titanic.xlsx")
 
-        st.sidebar.title(":car: Navigation")
+    # space between sections
+    helpers.betweensection_space()
+    helpers.sidebar_space()
 
-        options = ["EDA", "Preprocessing Suggestions"]
-        choice_page = st.sidebar.radio(
-            "Which page do you want to navigate to?", options
-        )
+    st.sidebar.title(":car: Navigation")
 
-        helpers.sidebar_space()
+    options = ["EDA", "Preprocessing Suggestions"]
+    choice_page = st.sidebar.radio(
+        "Which page do you want to navigate to?", options
+    )
 
-        # Ensures navigation between pages
-        if choice_page == "EDA":
-            eda.first_inspection(df)
-            eda.visuals(df)
-        elif choice_page == "Preprocessing Suggestions":
-            preprocessing.preprocess(df)
+    helpers.sidebar_space()
+
+    # Ensures navigation between pages
+    if choice_page == "EDA":
+        eda.first_inspection(df)
+        eda.visuals(df)
+    elif choice_page == "Preprocessing Suggestions":
+        preprocessing.preprocess(df)
 
     # bottom line and github logo
     st.markdown("---")
