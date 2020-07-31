@@ -60,7 +60,7 @@ def main():
         df = helpers.load_file(filename, delim)
 
     else:
-        df = pd.read_excel("Data/titanic.xlsx")
+        df = pd.read_excel("titanic.xlsx")
 
     # space between sections
     helpers.betweensection_space()
