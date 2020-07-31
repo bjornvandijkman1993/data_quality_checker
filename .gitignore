@@ -138,7 +138,6 @@ dmypy.json
 cython_debug/
 
 # Folders to ignore 
-Data/
 Docs/
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
