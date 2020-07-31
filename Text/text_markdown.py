@@ -35,9 +35,6 @@ def generate_html(
 
 def intro_page():
     # Uploader widget
-
-    TRELLO_LINK = "https://trello.com/b/Gh80k24M/outlier-detection"
-
     BITBUCKET_LINK = (
         "https://bitbucket.org/bvandijkman/data_quality_checker/src/master/"
     )
