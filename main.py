@@ -28,6 +28,7 @@ def main():
             unsafe_allow_html=True,
         )
 
+    # Hide the Streamlit header and footer
     def hide_header_footer():
         hide_streamlit_style = """
                     <style>
