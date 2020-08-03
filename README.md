@@ -1,5 +1,5 @@
 
-# Outlier Detection in Streamlit
+# Data Quality Checker in Streamlit
 
 > Provides a nice UI for outlier detection, making it reusable across projects
 
@@ -19,7 +19,7 @@
 3. Run streamlit
 
 ```shell
-$ git clone git@bitbucket.org:anschipper/react-descriptive-statistics.git
+$ git clone [https link]
 $ pip install -r requirements.txt
 
 $ streamlit run main.py
@@ -55,23 +55,3 @@ st.write(get_head_df(df))
 
 ---
 
-## Features
-1. Provides descriptive statistics for the data
-2. Boxplot and scatterplot visualizations
-3. Preprocessing steps:
-    - Convert data types
-    - Impute missing values
-4. Log transformations to skewed variables
-5. Outlier detections using the following techniques:
-    - Cluster-based local outlier factor ([CBLOF](https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.cblof))
-    - Histogram-base outlier detection ([HBOS](https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.hbos))
-    - Isolation Forest ([IForest](https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.iforest))
-    - K-neirest neighbors ([KNN](https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.knn))
-    - Average KNN ([KNN](https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.knn))
-    - All of the methods above. The results are combined into a single score.
-
-    Furthermore, per row an indication will be given which column value can considered to be an outlier
-    in a single dimension. The two methods that can be chosen from are the **Standard Deviation Method**
-    and the **Inter Quartile Range (IQR)** method.
-6. Plot the results to explore them.
-7. Export the dataframe, which is sorted on the outlier score.
