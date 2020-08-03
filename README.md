@@ -16,7 +16,7 @@
 
 1. Navigate to a folder within your local system in the terminal.
 2. Clone the repository and install the dependencies.
-3. Run streamlit
+3. Run streamlit from the command line
 
 ```shell
 $ git clone git@bitbucket.org:aimdeloittenl/data_quality_checker.git
