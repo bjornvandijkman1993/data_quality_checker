@@ -2,13 +2,6 @@ branch-defaults:
   master:
     environment: Dataqualitychecker-env
     group_suffix: null
-environment-defaults:
-  Dataqualitychecker-env:
-    branch: null
-    repository: null
-  dataquality-dev:
-    branch: null
-    repository: null
 global:
   application_name: dataqualitychecker
   branch: null
