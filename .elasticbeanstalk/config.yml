@@ -2,8 +2,8 @@ branch-defaults:
   master:
     environment: Dataqualitychecker-env
     group_suffix: null
-  production:
-    environment: production
+  develop:
+    environment: develop
 environment-defaults:
   Dataqualitychecker-env:
     branch: null
