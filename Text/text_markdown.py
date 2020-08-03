@@ -64,7 +64,7 @@ def intro_page():
 
     st.markdown(
         """
-    This tool checks and visualizes any excel or csv file that you upload, which makes it a great way to 
+    This tool checks and visualizes any `excel` or `csv` file that you upload, which makes it a great way to 
     quickly get a sense of the data that you are dealing with.
 
     👈 **Please _upload a csv or excel file_ in the sidebar to explore your own dataset.**

@@ -44,7 +44,6 @@ def main():
     # hide the footer and optionally the streamlit menu in the topright corner which is unrelated to our app
     hide_header_footer()
 
-
     # show the intro page
     text_markdown.intro_page()
 
