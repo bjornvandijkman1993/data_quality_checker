@@ -36,7 +36,7 @@ def generate_html(
 def intro_page():
     # Uploader widget
     BITBUCKET_LINK = (
-        "https://bitbucket.org/bvandijkman/data_quality_checker/src/master/"
+        "https://bitbucket.org/aimdeloittenl/data_quality_checker/src/master/"
     )
 
     # introductory text
