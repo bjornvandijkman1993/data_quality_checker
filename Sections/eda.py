@@ -63,6 +63,33 @@ def first_inspection(df):
     )
     st.write(data_characteristics)
 
+    helpers.innersection_space()
+
+    st.sidebar.title(":mag_right: First Inspection")
+    all_names = helpers.get_all_names(df)
+    choice_duplicates = st.sidebar.multiselect("Select the column that you want to check for duplicates", all_names,
+                                               all_names)
+
+    st.subheader("Duplicates")
+    st.markdown("You can check your data for duplicates. By default all columns are selected in the "
+                "sidebar :point_left:, which implies "
+                "that the tool will check for duplicate rows. However, you can also select individual columns "
+                "to see whether duplicates are present on fewer dimensions.")
+
+    if len(choice_duplicates) != 0:
+        try:
+            # returns dataframe that contains duplicates in a column/columns
+            # duplicate_df = df[df[choice_duplicates].duplicated() == True].sort_values(choice_duplicates)
+            duplicate_df = concat(g for _, g in df.groupby(choice_duplicates) if len(g) > 1)
+            if len(duplicate_df) != 0:
+                st.write(duplicate_df)
+            else:
+                st.success("There are no duplicate rows for the selected columns")
+        except ValueError:
+            st.success("There are no duplicate rows for the selected columns")
+
+
+    st.sidebar.markdown("---")
     helpers.betweensection_space()
 
 
@@ -143,5 +170,7 @@ def visuals(df):
         else:
             sns.scatterplot(x=num_column, y=num_column2, data=df)
     st.pyplot()
+
+
 
     return
