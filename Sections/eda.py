@@ -3,6 +3,7 @@ import streamlit as st
 from pandas import concat
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
 
 sns.set(style="darkgrid")
 sns.set(rc={"figure.figsize": (11.7, 9.27)})
@@ -71,10 +72,10 @@ def first_inspection(df):
                                                all_names)
 
     st.subheader("Duplicates")
-    st.markdown("You can check your data for duplicates. By default all columns are selected in the "
+    st.markdown("You can check your data for duplicates. By default **all columns** are selected in the "
                 "sidebar :point_left:, which implies "
                 "that the tool will check for duplicate rows. However, you can also select individual columns "
-                "to see whether duplicates are present on fewer dimensions.")
+                "to see whether duplicates are present.")
 
     if len(choice_duplicates) != 0:
         try:
@@ -88,6 +89,24 @@ def first_inspection(df):
         except ValueError:
             st.success("There are no duplicate rows for the selected columns")
 
+    helpers.sidebar_space()
+    float_names = helpers.get_numerical_names(df)
+    int_names = helpers.get_int_names(df)
+    num_names = float_names + int_names
+
+    st.sidebar.subheader(":scissors: Filter the data")
+    column = st.sidebar.selectbox("Select a column to filder between a specific range", num_names)
+    min_value = float(df[column].min())
+    max_value = float(df[column].max())
+    values = st.sidebar.slider("Select a range of values", min_value, max_value, (min_value, max_value))
+
+    choice_range = st.sidebar.radio("Select rows inside or outside a specified range", ['Inside', 'Outside'])
+    helpers.innersection_space()
+    st.subheader(":scissors: Data Filtered")
+    if choice_range == 'Inside':
+        st.write(df[df[column].between(values[0], values[1])])
+    elif choice_range == 'Outside':
+        st.write(df[~df[column].between(values[0], values[1])])
 
     st.sidebar.markdown("---")
     helpers.betweensection_space()

@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 import io
 from pandas.io.parsers import ParserError
+from datetime import datetime
 
 
 def load_file(filename, delim):
@@ -425,6 +426,15 @@ def sidebar_space():
     st.sidebar.markdown("")
     st.sidebar.markdown("")
     st.sidebar.markdown("")
+
+def days_between(d1, d2):
+    try:
+        d1 = datetime.strptime(d1, "%Y-%m-%d")
+        d2 = datetime.strptime(d2, "%Y-%m-%d")
+    except ValueError:
+        d1 = datetime.strptime(d1, "%m-%d-%Y")
+        d2 = datetime.strptime(d2, "%m-%d-%Y")
+    return abs((d2 - d1).days)
 
 def all_cards(df):
     """
