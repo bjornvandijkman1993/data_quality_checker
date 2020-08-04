@@ -14,10 +14,8 @@ pipelines:
           - apt-get update # required to install zip
           - apt-get install -y zip # required for packaging up the application
           - pip install -r requirements.txt
-          - zip -j /tmp/artifact.zip application/* # package up the application for deployment
+          - zip -j application.zip application/* # package up the application for deployment
         # Define an artifact to pass the zip file to the next step
-        artifacts:
-          - application.zip
     - step:
         name: "Deploy to Production"
         # Track production environments builds using deployments.
@@ -31,4 +29,5 @@ pipelines:
               APPLICATION_NAME: "dataqualitychecker"
               ENVIRONMENT_NAME: 'Dataqualitychecker-env'
               ZIP_FILE: "application.zip"
-
+        artifacts:
+          - application.zip
