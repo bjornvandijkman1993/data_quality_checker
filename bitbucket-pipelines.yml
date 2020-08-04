@@ -15,9 +15,9 @@ pipelines:
           - apt-get install -y zip # required for packaging up the application
           - pip install -r requirements.txt
           - zip -j /tmp/artifact.zip application/* # package up the application for deployment
-          # Define an artifact to pass the zip file to the next step
-          artifacts:
-            - application.zip
+        # Define an artifact to pass the zip file to the next step
+        artifacts:
+          - application.zip
     - step:
         name: "Deploy to Production"
         # Track production environments builds using deployments.
