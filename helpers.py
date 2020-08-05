@@ -45,7 +45,7 @@ def load_file(filename, delim):
         # df = try_read_df(filename)
         df = try_read_df(filename, delim)
         if len(df) != 0:
-            st.sidebar.success("**The file has been loaded.**")
+            st.sidebar.success(":thumbsup: **The file has been loaded.**")
             return df
         else:
             st.error("**Please change your delimiter in the sidebar.**")
@@ -205,7 +205,7 @@ def is_data_missing(df, percent_missing):
         drop_string = ", ".join(drop_columns)
         if len(drop_columns) > 1:
             message.append(
-                " The columns **{}** contain more than 10% of missing values, you should consider "
+                ":warning: The columns **{}** contain more than 10% of missing values, you should consider "
                 "**dropping** these "
                 "columns if the columns do not contain valuable information.".format(
                     drop_string
@@ -214,7 +214,7 @@ def is_data_missing(df, percent_missing):
             type.append("drop")
         elif len(drop_columns) == 1:
             message.append(
-                "**{}** contains more than 10% of missing values, you should consider **dropping** this "
+                ":warning: **{}** contains more than 10% of missing values, you should consider **dropping** this "
                 "column if the column does not contain valuable information.".format(
                     drop_string
                 )
@@ -229,7 +229,7 @@ def is_data_missing(df, percent_missing):
             )
         elif len(impute_columns) == 1:
             message.append(
-                "**{}** contains between 0 and 10% of missing values, you should "
+                ":construction: **{}** contains between 0 and 10% of missing values, you should "
                 "consider **imputing** the values for this column.".format(
                     impute_string
                 )
@@ -237,7 +237,7 @@ def is_data_missing(df, percent_missing):
         type.append("impute")
 
     if len(still_missing) == 0:
-        message = "There are no missing values in your data."
+        message = ":heavy_check_mark: There are no missing values in your data."
     # message_missing = "Your original data contains missing values, imputation is necessary."
     # not_missing = "Your data does not contain any missing values. No imputation is necessary."
     # is_missing = message_missing if len(still_missing) != 0 else not_missing

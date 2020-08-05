@@ -53,22 +53,21 @@ def intro_page():
     )
 
     st.markdown(
-        body=generate_html(
-            tag="h4",
-            text=f"<u><a href=\"{BITBUCKET_LINK}\" target=\"_blank\" style=color:{COLOR_MAP['pink']};>"
-            "Source Code</a></u> <span> &nbsp;&nbsp;&nbsp;&nbsp</span>"
-            "<hr>",
-        ),
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
         """
-    This tool checks and visualizes any `excel` or `csv` file that you upload, which makes it a great way to 
+    This tool :heavy_check_mark: checks and :chart_with_upwards_trend: visualizes any `excel` or `csv` file that you upload, which makes it a great way to 
     quickly get a sense of the data that you are dealing with.
 
     👈 **Please _upload a csv or excel file_ in the sidebar to explore your own dataset.**
     """
+    )
+
+    st.markdown(
+        body=generate_html(
+            tag="h4",
+            text=f"<u><a href=\"{BITBUCKET_LINK}\" target=\"_blank\" style=color:{COLOR_MAP['pink']};>"
+            "Source Code</a></u> <span> &nbsp;&nbsp;&nbsp;&nbsp</span>"
+        ),
+        unsafe_allow_html=True,
     )
 
     return

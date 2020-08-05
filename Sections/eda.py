@@ -18,18 +18,19 @@ def first_inspection(df):
     - Summary of numerical data (mean, std, min, max etc.)
     """
 
-
     st.title(":mag_right: First Inspection")
     st.markdown("""
     You can use the filter functionality to inspect the part of the dataframe that you are interested.
-    This filter applies to all the dataframes and graphs in the application. Follow these steps to filter the data:
+    This filter applies to all the :page_facing_up: dataframes and graphs :bar_chart:  in the application. Follow these steps to filter the data:
 
-    1. Select a **column** to filter on
-    2. Select a **range of values** for the selected column 
-    3. Indicate whether you want to return the dataframe that falls **inside** or **outside** of the specified range
+    1. :walking: Select a **column** to filter on
+    2. :open_hands: Select a **range of values** for the selected column 
+    3. :question: Indicate whether you want to return the dataframe that falls **inside** or **outside** of the specified range
+    4. Hit the checkbox :point_left: to filter the data 
     """)
-    st.sidebar.title(":mag_right: First Inspection")
-    st.sidebar.subheader("Filter")
+    st.sidebar.title(":scissors: Filters")
+    st.sidebar.warning(":warning: Applies to the full application")
+    st.sidebar.subheader("By Numerical Values")
 
     # Show dataframe and a title in streamlit
     float_names = helpers.get_numerical_names(df)
@@ -44,16 +45,31 @@ def first_inspection(df):
     helpers.innersection_space()
 
     values = st.sidebar.slider("Select a range of values", min_value, max_value, (min_value, max_value))
-    st.info("You are currently filtering on **{}**, where data is retained that is **{}** of the following range: "
-            "`{}` and `{}`.".format(column, choice_range.lower(), values[0], values[1]))
 
-    if choice_range == 'Inside':
-        df = df[df[column].between(values[0], values[1])]
-    elif choice_range == 'Outside':
-        df = df[~df[column].between(values[0], values[1])]
+    if st.sidebar.checkbox("Filter Data"):
+        if choice_range == 'Inside':
+            df = df[df[column].between(values[0], values[1])]
+            st.warning(":warning: **NA's** are filtered out as well.")
+        elif choice_range == 'Outside':
+            df = df[~df[column].between(values[0], values[1])]
+
+        st.info(
+            ":scissors: You are currently filtering on **{}**, where data is retained that is **{}** of the following range: "
+            "`{}` and `{}`".format(column, choice_range.lower(), values[0], values[1]))
+
+    cat_names = helpers.get_categorical_names(df)
+    if len(cat_names) != 0:
+        st.sidebar.markdown("")
+        st.sidebar.subheader("By Category")
+        choice_column = st.sidebar.selectbox("Select a categorical column to filter on", cat_names)
+        categories = df[choice_column].unique()
+        choice_category = st.sidebar.multiselect("Choose on or more categories from the selected variable", categories)
+        if choice_category:
+            # Filters by category
+            df = df[df[choice_column].isin(choice_category)]
+
 
     st.write(df)
-
     # space within sections
     helpers.innersection_space()
 

@@ -204,7 +204,7 @@ def is_data_missing(df, percent_missing):
         drop_string = ", ".join(drop_columns)
         if len(drop_columns) > 1:
             message.append(
-                " The columns **{}** contain more than 10% of missing values, you should consider "
+                ":warning: The columns **{}** contain more than 10% of missing values, you should consider "
                 "**dropping** these "
                 "columns if the columns do not contain valuable information.".format(
                     drop_string
@@ -213,7 +213,7 @@ def is_data_missing(df, percent_missing):
             type.append("drop")
         elif len(drop_columns) == 1:
             message.append(
-                "**{}** contains more than 10% of missing values, you should consider **dropping** this "
+                ":warning: **{}** contains more than 10% of missing values, you should consider **dropping** this "
                 "column if the column does not contain valuable information.".format(
                     drop_string
                 )
@@ -223,12 +223,12 @@ def is_data_missing(df, percent_missing):
         impute_string = ", ".join(impute_columns)
         if len(impute_columns) > 1:
             message.append(
-                "**{}** contain between 0 and 10% of missing values, you should "
+                ":construction: **{}** contain between 0 and 10% of missing values, you should "
                 "consider **imputing** the values.".format(impute_string)
             )
         elif len(impute_columns) == 1:
             message.append(
-                "**{}** contains between 0 and 10% of missing values, you should "
+                ":construction: **{}** contains between 0 and 10% of missing values, you should "
                 "consider **imputing** the values for this column.".format(
                     impute_string
                 )

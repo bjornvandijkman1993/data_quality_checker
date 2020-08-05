@@ -33,9 +33,9 @@ def preprocess(df):
             if len(duplicate_df) != 0:
                 st.write(duplicate_df)
             else:
-                st.success("There are no duplicate rows for the selected columns")
+                st.success(":heavy_check_mark: There are no duplicate rows for the selected columns")
         except ValueError:
-            st.success("There are no duplicate rows for the selected columns")
+            st.success(":heavy_check_mark: There are no duplicate rows for the selected columns")
 
 
     st.subheader("Mixed datatypes")
@@ -52,11 +52,11 @@ def preprocess(df):
     mixed_string = ", ".join(list_mixed_types)
 
     if len(mixed_string) > 0:
-        st.info(
-            "**{}** has mixed data types.".format(mixed_string)
+        st.warning(
+            ":warning: The column **{}** has mixed data types.".format(mixed_string)
         )
     elif len(mixed_string) == 0:
-        st.success("There are no columns with mixed data types.")
+        st.success(":heavy_check_mark: There are no columns with mixed data types.")
 
 
     # Call function to see if any data is missing
