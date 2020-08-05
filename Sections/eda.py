@@ -1,9 +1,8 @@
 import helpers
 import streamlit as st
-from pandas import concat
 import seaborn as sns
 import matplotlib.pyplot as plt
-import numpy as np
+from pandas import concat
 
 sns.set(style="darkgrid")
 sns.set(rc={"figure.figsize": (11.7, 9.27)})
@@ -19,27 +18,41 @@ def first_inspection(df):
     - Summary of numerical data (mean, std, min, max etc.)
     """
 
-    # Preparation for EDA
-    unique_values = helpers.get_unique_values(df)
-    data_types = helpers.get_type_variables(df)
-    zero_values = helpers.get_zero_values(df)
-    missing_values, percent_missing = helpers.get_missings(df)
-
-    # Create table and highlight missing values
-    summary_table = concat(
-        [unique_values, missing_values, percent_missing, zero_values, data_types],
-        axis=1,
-    )
-
-    # Gets the names of missing values, a dataframe with the missings, the number of rows/columns
-    # of the original df, and two tables with summary statistics
-    data_characteristics = helpers.describe_table(df)
 
     st.title(":mag_right: First Inspection")
+    st.markdown("""
+    You can use the filter functionality to inspect the part of the dataframe that you are interested.
+    This filter applies to all the dataframes and graphs in the application. Follow these steps to filter the data:
+
+    1. Select a **column** to filter on
+    2. Select a **range of values** for the selected column 
+    3. Indicate whether you want to return the dataframe that falls **inside** or **outside** of the specified range
+    """)
+    st.sidebar.title(":mag_right: First Inspection")
+    st.sidebar.subheader("Filter")
 
     # Show dataframe and a title in streamlit
-    st.subheader("Your dataframe")
-    st.dataframe(df)
+    float_names = helpers.get_numerical_names(df)
+    int_names = helpers.get_int_names(df)
+    num_names = float_names + int_names
+
+    column = st.sidebar.selectbox("Select a column to filter between a specific range", num_names)
+    min_value = float(df[column].min())
+    max_value = float(df[column].max())
+
+    choice_range = st.sidebar.radio("Select rows inside or outside a specified range", ['Inside', 'Outside'])
+    helpers.innersection_space()
+
+    values = st.sidebar.slider("Select a range of values", min_value, max_value, (min_value, max_value))
+    st.info("You are currently filtering on **{}**, where data is retained that is **{}** of the following range: "
+            "`{}` and `{}`.".format(column, choice_range.lower(), values[0], values[1]))
+
+    if choice_range == 'Inside':
+        df = df[df[column].between(values[0], values[1])]
+    elif choice_range == 'Outside':
+        df = df[~df[column].between(values[0], values[1])]
+
+    st.write(df)
 
     # space within sections
     helpers.innersection_space()
@@ -54,6 +67,27 @@ def first_inspection(df):
         "Shows the number of **unique values**, the number of **missing values** and the **variable "
         "type** in Python for each variable in the dataset."
     )
+
+    # Preparation for EDA
+    unique_values = helpers.get_unique_values(df)
+    data_types = helpers.get_type_variables(df)
+    zero_values = helpers.get_zero_values(df)
+    missing_values, percent_missing = helpers.get_missings(df)
+
+    # Create table and highlight missing values
+    @st.cache
+    def get_summary_table(unique_values, missing_values, percent_missing, zero_values, data_types):
+        table = concat([unique_values, missing_values, percent_missing, zero_values, data_types],
+        axis=1,)
+        return table
+
+
+    summary_table = get_summary_table(unique_values, missing_values, percent_missing, zero_values, data_types)
+
+    # Gets the names of missing values, a dataframe with the missings, the number of rows/columns
+    # of the original df, and two tables with summary statistics
+    data_characteristics = helpers.describe_table(df)
+
     st.write(summary_table)
 
     helpers.innersection_space()
@@ -66,51 +100,14 @@ def first_inspection(df):
 
     helpers.innersection_space()
 
-    st.sidebar.title(":mag_right: First Inspection")
-    all_names = helpers.get_all_names(df)
-    choice_duplicates = st.sidebar.multiselect("Select the column that you want to check for duplicates", all_names,
-                                               all_names)
+    st.sidebar.markdown("")
 
-    st.subheader("Duplicates")
-    st.markdown("You can check your data for duplicates. By default **all columns** are selected in the "
-                "sidebar :point_left:, which implies "
-                "that the tool will check for duplicate rows. However, you can also select individual columns "
-                "to see whether duplicates are present.")
 
-    if len(choice_duplicates) != 0:
-        try:
-            # returns dataframe that contains duplicates in a column/columns
-            # duplicate_df = df[df[choice_duplicates].duplicated() == True].sort_values(choice_duplicates)
-            duplicate_df = concat(g for _, g in df.groupby(choice_duplicates) if len(g) > 1)
-            if len(duplicate_df) != 0:
-                st.write(duplicate_df)
-            else:
-                st.success("There are no duplicate rows for the selected columns")
-        except ValueError:
-            st.success("There are no duplicate rows for the selected columns")
-
-    helpers.sidebar_space()
-    float_names = helpers.get_numerical_names(df)
-    int_names = helpers.get_int_names(df)
-    num_names = float_names + int_names
-
-    st.sidebar.subheader(":scissors: Filter the data")
-    column = st.sidebar.selectbox("Select a column to filder between a specific range", num_names)
-    min_value = float(df[column].min())
-    max_value = float(df[column].max())
-    values = st.sidebar.slider("Select a range of values", min_value, max_value, (min_value, max_value))
-
-    choice_range = st.sidebar.radio("Select rows inside or outside a specified range", ['Inside', 'Outside'])
-    helpers.innersection_space()
-    st.subheader(":scissors: Data Filtered")
-    if choice_range == 'Inside':
-        st.write(df[df[column].between(values[0], values[1])])
-    elif choice_range == 'Outside':
-        st.write(df[~df[column].between(values[0], values[1])])
-
-    st.sidebar.markdown("---")
     helpers.betweensection_space()
 
+    helpers.sidebar_space()
+
+    return df
 
 def visuals(df):
     # create lists of column names

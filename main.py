@@ -66,21 +66,13 @@ def main():
     helpers.betweensection_space()
     helpers.sidebar_space()
 
-    st.sidebar.title(":car: Navigation")
-
-    options = ["EDA", "Preprocessing Suggestions"]
-    choice_page = st.sidebar.radio(
-        "Which page do you want to navigate to?", options
-    )
-
-    helpers.sidebar_space()
 
     # Ensures navigation between pages
-    if choice_page == "EDA":
-        eda.first_inspection(df)
-        eda.visuals(df)
-    elif choice_page == "Preprocessing Suggestions":
-        preprocessing.preprocess(df)
+    df = eda.first_inspection(df)
+    eda.visuals(df)
+    helpers.betweensection_space()
+    helpers.sidebar_space()
+    preprocessing.preprocess(df)
 
     # bottom line and github logo
     st.markdown("---")
